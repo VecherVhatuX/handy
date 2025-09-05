@@ -187,7 +187,7 @@ ssize_t TcpConn::isend(const char *buf, size_t len) {
         trace("channel %lld fd %d write %ld bytes", (long long) channel_->id(), channel_->fd(), wd);
 
         if (wd > 0) {
-            sended += static_cast<size_t>(wd);  // safe: wd > 0
+            sended += static_cast<size_t>(wd);
             continue;
         } else if (wd == -1 && errno == EINTR) {
             continue;
@@ -195,8 +195,7 @@ ssize_t TcpConn::isend(const char *buf, size_t len) {
             if (!channel_->writeEnabled()) channel_->enableWrite(true);
             break;
         } else {
-            error("write error: channel %lld fd %d wd %ld %d %s",
-                (long long) channel_->id(), channel_->fd(), wd, errno, strerror(errno));
+            error("write error: channel %lld fd %d wd %ld %d %s", (long long) channel_->id(), channel_->fd(), wd, errno, strerror(errno));
             break;
         }
     }
